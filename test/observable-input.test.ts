@@ -7,11 +7,8 @@ class SingleProperty<T> {
 }
 
 class DoubleProperty<T> {
-  foo!: T;
-  fooChanges$!: Observable<T>;
-
-  bar!: T;
-  barChanges$!: Observable<T>;
+  @ObservableInput<T>('foo') foo$!: Observable<T>;
+  @ObservableInput<T>('bar') bar$!: Observable<T>;
 }
 
 test('creates observer property from any', () => {
@@ -37,9 +34,6 @@ test('deletes existing input key', () => {
 test('creates observer property from class', () => {
   const target = new SingleProperty<number>();
 
-  const observeHandler = ObservableInput<number>('foo');
-  observeHandler(target, 'fooChanges$');
-
   expect(target.foo$).toBeDefined();
   expect(target.foo$ instanceof Observable).toEqual(true);
 });
@@ -56,17 +50,12 @@ test('notifies single change', (done) => {
 });
 
 test('notifies multiple change', (done) => {
-  const fooObserveHandler = ObservableInput<number>('foo');
-  const barObserveHandler = ObservableInput<number>('bar');
-
   const target = new DoubleProperty<number>();
-  fooObserveHandler(target, 'fooChanges$');
-  barObserveHandler(target, 'barChanges$');
 
-  target.foo = 2;
-  target.bar = 3;
+  (target as any)['foo'] = 2;
+  (target as any)['bar'] = 3;
 
-  combineLatest(target.fooChanges$, target.barChanges$).pipe(
+  combineLatest(target.foo$, target.bar$).pipe(
     first()
   ).subscribe({
     next: ([foo, bar]) => {
