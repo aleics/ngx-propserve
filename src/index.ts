@@ -25,3 +25,17 @@ export function ObservableInput<T>(inputKey: string): PropertyDecorator {
     __decorate([Input(inputKey)], target, inputKey, null);
   };
 }
+
+/**
+ * `@AsObservable` transforms the `@Input` property into an `Observable`
+ */
+export function AsObservable<T>(): PropertyDecorator {
+  const listener = new ReplaySubject<T>(1);
+
+  return (target: any, key: string | symbol): void => {
+    const get = () => listener.asObservable();
+    const set = (value: T): void => listener.next(value);
+
+    Reflect.defineProperty(target, key, { get, set });
+  };
+}
