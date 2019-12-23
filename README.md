@@ -2,6 +2,7 @@
 **ngx-propserve** let's you subscribe to changes of Angular's [`@Input`](https://angular.io/api/core/Input) properties.
 
 ## Usage
+### ObservableInput
 Using the `@ObservableInput` decorator, you can define a `@Input` property that works as an [`Observable`](https://rxjs.dev/guide/observable) and informs you automatically about its changes.
 
 ```ts
@@ -43,3 +44,31 @@ class TestComponent {
   )
 }
 ```
+
+`@ObservableInput` doesn't compile out-of-the-box when using the AOT compiler, since the creation of the `@Input` decorator is done implicitly. You could define your module schema as [`NO_ERRORS_SCHEMA`](https://angular.io/api/core/NO_ERRORS_SCHEMA) and it will ignore the
+input binding errors.
+
+### AsObservable
+**ngx-propserve** includes the `@AsObservable` decorator that can transform existing properties of a class into an `Observable` listener. For instance:
+
+```ts
+@Component({
+  selector: 'app-test',
+  template: `
+    <span *ngIf="name$ | async as name">{{ name }}: </span>
+    <span *ngIf="message$ | async as message">{{ message }}</span>
+  `
+})
+class TestComponent {
+  @Input('price') @AsObservable() price$!: Observable<number>;
+  @Input('name') @AsObservable() name$!: Observable<string>;
+
+  message$ = combineLatest(this.price$, this.name$).pipe(
+    map(([price, name]) => `${name} costs {price}`)
+  )
+}
+```
+
+The `@AsObservable` decorator works together with `@Input` to provide an input property behaving as an `Observable`.
+
+Using `@AsObservable` compiles when using the AOT compiler and has been inspired by [ngx-observable-input](https://github.com/Futhark/ngx-observable-input).

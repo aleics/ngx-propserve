@@ -6,6 +6,10 @@ import { __decorate } from 'tslib';
  * `@ObservableInput` is a decorator that allows you to define a reactive
  * `@Input` property that subscribes to the changes of an specific input
  * property.
+ *
+ * Disclaimer: This won't work out-of-the-box when using AOT compilation. For
+ * enabling it define `NO_ERRORS_SCHEMA` as schema in your module.
+ *
  * @param inputKey key of the input property.
  */
 export function ObservableInput<T>(inputKey: string): PropertyDecorator {
