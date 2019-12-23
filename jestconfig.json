@@ -1,0 +1,6 @@
+{
+  "preset": "ts-jest",
+  "moduleNameMapper": {
+    "^@ngx-propserve/(.*)$": "<rootDir>/src/$1"
+  }
+}
