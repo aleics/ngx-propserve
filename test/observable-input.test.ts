@@ -1,6 +1,7 @@
 import { ObservableInput } from '@ngx-propserve/index';
 import { Observable, combineLatest } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { expectValues } from './test.helpers';
 
 class SingleProperty<T> {
   @ObservableInput<T>('foo') foo$!: Observable<T>;
@@ -43,26 +44,28 @@ test('notifies single change', (done) => {
 
   (target as any)['foo'] = 2;
 
-  target.foo$.subscribe(value => {
-    expect(value).toEqual(2);
-    done();
-  });
+  expectValues(target.foo$, [2], done);
 });
 
 test('notifies multiple change', (done) => {
   const target = new DoubleProperty<number>();
 
-  (target as any)['foo'] = 2;
-  (target as any)['bar'] = 3;
+  (target as any).foo = 2;
+  (target as any).bar = 3;
 
-  combineLatest(target.foo$, target.bar$).pipe(
+  const combination$ = combineLatest(target.foo$, target.bar$).pipe(
     first()
-  ).subscribe({
-    next: ([foo, bar]) => {
-      expect(foo).toEqual(2);
-      expect(bar).toEqual(3);
-      done();
-    },
-    complete: () => done()
-  });
+  );
+
+  expectValues(combination$, [[2, 3]], done);
+});
+
+test('doesn\'t notify values from another instance', (done) => {
+  const someInstance = new SingleProperty();
+  const someOtherInstance = new SingleProperty();
+
+  expectValues(someOtherInstance.foo$, [undefined, 1], done);
+
+  (someInstance as any).foo = 2;
+  (someOtherInstance as any).foo = 1;
 });
