@@ -50,15 +50,37 @@ export function ObservableInput<T>(inputKey: string): PropertyDecorator {
 }
 
 /**
- * `@AsObservable` transforms the `@Input` property into an `Observable`
+ * `@AsObservable` is a decorator that mutates an `@Input` property to behave
+ * as an `Observable`.
+ *
+ * @example
+ *
+ * @Component({
+ *   selector: 'some-component',
+ *   template: '<span>{{ foo$ | async }}</span>'
+ * })
+ * export class SomeComponent {
+ *   @Input('foo') @AsObservable() foo$: number;
+ * }
  */
 export function AsObservable<T>(): PropertyDecorator {
-  const listener = new ReplaySubject<T>(1);
-
   return (target: any, key: string | symbol): void => {
-    const get = () => listener.asObservable();
-    const set = (value: T): void => listener.next(value);
+    const subjects = new WeakMap<any, BehaviorSubject<T | undefined>>();
 
-    Reflect.defineProperty(target, key, { get, set });
+    const getSubject = (instance: any) => {
+      if (!subjects.has(instance)) {
+        subjects.set(instance, new BehaviorSubject<T | undefined>(undefined))
+      }
+      return subjects.get(instance);
+    };
+
+    Object.defineProperty(target, key, {
+      get(): Observable<T | undefined> | undefined {
+        return getSubject(this);
+      },
+      set(instanceNewValue: T) {
+        getSubject(this)?.next(instanceNewValue);
+      }
+    });
   };
 }

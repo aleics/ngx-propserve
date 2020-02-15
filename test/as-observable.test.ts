@@ -1,5 +1,6 @@
-import { AsObservable } from '@ngx-propserve/index';
 import { Observable } from 'rxjs';
+import { AsObservable } from '@ngx-propserve/index';
+import { expectValues } from './test.helpers';
 
 class SingleProperty<T> {
   @AsObservable<T>() foo!: Observable<T>;
@@ -12,13 +13,12 @@ test('initializes property as observable', () => {
   expect(target.foo instanceof Observable).toEqual(true);
 });
 
-test('notifies changes', (done) => {
-  const target = new SingleProperty<number>();
+test('doesn\'t notify values from another instance', (done) => {
+  const someInstance = new SingleProperty();
+  const someOtherInstance = new SingleProperty();
 
-  target.foo.subscribe(value => {
-    expect(value).toEqual(2);
-    done();
-  });
+  expectValues(someOtherInstance.foo, [undefined, 1], done);
 
-  (target as any).foo = 2;
+  (someInstance as any).foo = 2;
+  (someOtherInstance as any).foo = 1;
 });
