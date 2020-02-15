@@ -19,7 +19,7 @@ class TestComponent {
 }
 ```
 
-This example defines an `@ObservableInput` called `foo$` that subscribes to the changes of an `@Input` named `foo`. The property `foo` is created automatically in the `@ObserableInput` decorator. Thus, no additional work is needed and the `TestComponent` can be used as follows:
+This example defines an `@ObservableInput` called `foo$` that subscribes to the changes of an `@Input` named `foo`. The property `foo` is created automatically in the `@ObservableInput` decorator. Thus, no additional work is needed and the `TestComponent` can be used as follows:
 
 ```html
 <app-test [foo]="2"></app-test>
@@ -40,7 +40,7 @@ class TestComponent {
   @ObservableInput<string>('name') name$!: Observable<string>;
 
   message$ = combineLatest(this.price$, this.name$).pipe(
-    map(([price, name]) => `${name} costs {price}`)
+    map(([price, name]) => `${name} costs ${price}`)
   )
 }
 ```
@@ -64,7 +64,7 @@ class TestComponent {
   @Input('name') @AsObservable() name$!: Observable<string>;
 
   message$ = combineLatest(this.price$, this.name$).pipe(
-    map(([price, name]) => `${name} costs {price}`)
+    map(([price, name]) => `${name} costs ${price}`)
   )
 }
 ```
@@ -72,3 +72,25 @@ class TestComponent {
 The `@AsObservable` decorator works together with `@Input` to provide an input property behaving as an `Observable`.
 
 Using `@AsObservable` compiles when using the AOT compiler and has been inspired by [ngx-observable-input](https://github.com/Futhark/ngx-observable-input).
+
+### Observe
+**ngx-propserve** includes also the `@Observe` decorator that allows to subscribe to the stream of changes of another property. It can be used for `@Input` properties, but not necessarily. For instance:
+
+```ts
+@Component({
+  selector: 'app-test',
+  template: `
+    <span *ngIf="message$ | async as message">{{ message }}</span>
+  `
+})
+class TestComponent {
+  @Input('price') price: number;
+  @Observe('price') price$!: Observable<number>;
+
+  message$ = this.price$.pipe(
+    map((price]) => `This costs ${price}`)
+  )
+}
+```
+
+The `@Observe` decorator separates explicitly the input and the observing mechanisms, and so, it has a more transparent functionality.
