@@ -24,7 +24,7 @@ export function ObservableInput<T>(inputKey: string): PropertyDecorator {
   return (target: any, key: string | symbol): void => {
     const subjects = new WeakMap<any, BehaviorSubject<T | undefined>>();
 
-    const getSubject = (instance: any) => {
+    const getSubject = (instance: any): BehaviorSubject<T | undefined> | undefined => {
       if (!subjects.has(instance)) {
         subjects.set(instance, new BehaviorSubject<T | undefined>(undefined))
       }
@@ -67,7 +67,7 @@ export function AsObservable<T>(): PropertyDecorator {
   return (target: any, key: string | symbol): void => {
     const subjects = new WeakMap<any, BehaviorSubject<T | undefined>>();
 
-    const getSubject = (instance: any) => {
+    const getSubject = (instance: any): BehaviorSubject<T | undefined> | undefined => {
       if (!subjects.has(instance)) {
         subjects.set(instance, new BehaviorSubject<T | undefined>(undefined))
       }
@@ -106,7 +106,7 @@ export function Observe<T>(observedKey: string): PropertyDecorator {
   return (target: any, key: string | symbol): void => {
     const subjects = new WeakMap<any, BehaviorSubject<T | undefined>>();
 
-    const getSubject = (instance: any) => {
+    const getSubject = (instance: any): BehaviorSubject<T | undefined> | undefined => {
       if (!subjects.has(instance)) {
         subjects.set(instance, new BehaviorSubject<T | undefined>(undefined))
       }
