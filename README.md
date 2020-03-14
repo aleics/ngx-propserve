@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/ngx-propserve.svg)](https://badge.fury.io/js/ngx-propserve)
+
 # ngx-propserve
 **ngx-propserve** let's you subscribe to changes of Angular's [`@Input`](https://angular.io/api/core/Input) properties.
 
