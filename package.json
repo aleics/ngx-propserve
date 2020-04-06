@@ -4,6 +4,14 @@
   "description": "",
   "author": "Aleix Casanovas (aleics)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aleics/ngx-propserve.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aleics/ngx-propserve/issues"
+  },
+  "homepage": "//https://github.com/aleics/ngx-propserve#readme",  
   "scripts": {
     "clean": "rm -rf dist",
     "build": "tsc",
