@@ -1,6 +1,6 @@
 {
   "name": "ngx-propserve",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "",
   "author": "Aleix Casanovas (aleics)",
   "license": "MIT",
@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/aleics/ngx-propserve/issues"
   },
-  "homepage": "https://github.com/aleics/ngx-propserve#readme",  
+  "homepage": "https://github.com/aleics/ngx-propserve#readme",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "tsc",
