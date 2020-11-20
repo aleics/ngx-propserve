@@ -1,7 +1,9 @@
 {
   "name": "ngx-propserve",
   "version": "0.1.6",
-  "description": "",
+  "description": "Tiny library that provides a small set of decorators to interact with Angular input attributes.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "Aleix Casanovas (aleics)",
   "license": "MIT",
   "repository": {
@@ -13,12 +15,10 @@
   },
   "homepage": "https://github.com/aleics/ngx-propserve#readme",
   "scripts": {
-    "clean": "rm -rf dist",
     "build": "tsc",
-    "postbuild": "cp package.json LICENSE README.md dist",
     "test": "jest --config jestconfig.json",
     "lint": "eslint '*/**/*.ts'",
-    "ci": "npm run clean && npm run lint && npm run test && npm run build"
+    "ci": "npm run lint && npm run test && npm run build"
   },
   "devDependencies": {
     "@angular/core": "^9.1.1",
