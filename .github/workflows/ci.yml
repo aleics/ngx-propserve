@@ -1,16 +1,21 @@
-name: "ci"
-on: # rebuild any PRs and main branch changes
-  pull_request:
-  push:
-    branches:
-      - master
-      - 'releases/*'
+name: ci
+on: [push, pull_request]
 
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: |
-        npm install
-        npm run ci
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build

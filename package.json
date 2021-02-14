@@ -1,7 +1,9 @@
 {
   "name": "ngx-propserve",
   "version": "0.1.6",
-  "description": "",
+  "description": "Tiny library that provides a small set of decorators to interact with Angular input attributes.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "Aleix Casanovas (aleics)",
   "license": "MIT",
   "repository": {
@@ -13,30 +15,27 @@
   },
   "homepage": "https://github.com/aleics/ngx-propserve#readme",
   "scripts": {
-    "clean": "rm -rf dist",
     "build": "tsc",
-    "postbuild": "cp package.json LICENSE README.md dist",
     "test": "jest --config jestconfig.json",
-    "lint": "eslint '*/**/*.ts'",
-    "ci": "npm run clean && npm run lint && npm run test && npm run build"
+    "lint": "eslint '*/**/*.ts'"
   },
   "devDependencies": {
-    "@angular/core": "^9.1.1",
-    "@types/jest": "^25.2.1",
-    "@typescript-eslint/eslint-plugin": "^2.28.0",
-    "@typescript-eslint/parser": "^2.28.0",
-    "eslint": "^6.8.0",
-    "jest": "^25.3.0",
-    "rxjs": "^6.5.5",
-    "ts-jest": "^25.3.1",
+    "@angular/core": "^11.0.2",
+    "@types/jest": "^26.0.15",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "eslint": "^7.13.0",
+    "jest": "^26.6.3",
+    "rxjs": "^6.6.3",
+    "ts-jest": "^26.4.4",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.8.3"
+    "typescript": "^4.1.2"
   },
   "peerDependencies": {
-    "@angular/core": "^9.1.1",
-    "rxjs": "^6.5.5"
+    "@angular/core": "^11.0.2",
+    "rxjs": "^6.6.3"
   },
   "dependencies": {
-    "tslib": "^1.11.1"
+    "tslib": "^2.0.3"
   }
 }
