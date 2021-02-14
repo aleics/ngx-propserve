@@ -37,5 +37,10 @@
   },
   "dependencies": {
     "tslib": "^2.0.3"
-  }
+  },
+  "files": [
+    "dist/*",
+    "package.json",
+    "LICENSE"
+  ]
 }
