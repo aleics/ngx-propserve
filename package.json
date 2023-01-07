@@ -1,6 +1,6 @@
 {
   "name": "ngx-propserve",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Tiny library that provides a small set of decorators to interact with Angular input attributes.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
